@@ -4,6 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🪙 CoinEgg - Tap to Earn USDT</title>
+    <!-- Gigapub Ads Script -->
+    <script data-project-id="5348">
+      !function(){
+        var s=document.currentScript,p=s.getAttribute('data-project-id')||'default';
+        var d=['https://ad.gigapub.tech','https://ru-ad.gigapub.tech'],i=0,t,sc;
+        function l(){
+          sc=document.createElement('script');
+          sc.async=true;
+          sc.src=d[i]+'/script?id='+p;
+          clearTimeout(t);
+          t=setTimeout(function(){
+            sc.onload=sc.onerror=null;
+            sc.src='';
+            if(++i<d.length)l();
+          },15000);
+          sc.onload=function(){clearTimeout(t)};
+          sc.onerror=function(){clearTimeout(t);if(++i<d.length)l()};
+          document.head.appendChild(sc);
+        }
+        l();
+      }();
+    </script>
     <style>
         * {
             margin: 0;
@@ -126,6 +148,10 @@
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
 
+        .nav-btn.purple {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
         /* Tap Page */
         #tapPage {
             background: linear-gradient(180deg, #78350f 0%, #c2410c 50%, #991b1b 100%);
@@ -240,20 +266,6 @@
             margin: 20px 0;
         }
 
-        .reward-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .reward-box {
-            background: rgba(236, 72, 153, 0.2);
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-        }
-
         .levels-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -278,31 +290,37 @@
             border-radius: 30px;
             padding: 30px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
         }
 
-        .link-display {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 20px 0;
-            word-break: break-all;
-            font-size: 14px;
-        }
-
-        .copy-btn {
+        .link-btn {
             width: 100%;
             background: white;
             color: #a855f7;
             border: none;
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 18px;
+            padding: 25px;
+            border-radius: 20px;
+            font-size: 22px;
             font-weight: bold;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            transition: transform 0.2s;
         }
 
-        .copy-btn:hover {
+        .link-btn:hover {
             background: #f3e8ff;
+            transform: scale(1.02);
+        }
+
+        .link-btn:active {
+            transform: scale(0.98);
+        }
+
+        .telegram-icon {
+            font-size: 32px;
         }
 
         /* Tasks Page */
@@ -451,6 +469,95 @@
             margin: 5px 0;
         }
 
+        /* Spin Page */
+        #spinPage {
+            background: linear-gradient(180deg, #0c4a6e 0%, #075985 50%, #0369a1 100%);
+            color: white;
+        }
+
+        .spin-counter {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .spin-wheel {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 40px;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                #ef4444 0deg 60deg,
+                #f97316 60deg 120deg,
+                #fbbf24 120deg 180deg,
+                #10b981 180deg 240deg,
+                #3b82f6 240deg 300deg,
+                #8b5cf6 300deg 360deg
+            );
+            position: relative;
+            transition: transform 3s cubic-bezier(0.17, 0.67, 0.22, 0.99);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: #dc2626;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 10;
+        }
+
+        .spin-btn {
+            display: block;
+            width: 200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .spin-result {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 24px;
+            min-height: 36px;
+        }
+
+        .gift-box {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border: 2px solid #fcd34d;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #92400e;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
         /* Loading Spinner */
         .spinner {
             border: 4px solid rgba(255, 255, 255, 0.3);
@@ -465,6 +572,41 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .ad-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .ad-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .ad-container {
+            width: 90%;
+            height: 80%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -482,12 +624,12 @@
                 <h2 id="homeBalance">0 USDT</h2>
                 <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; font-size: 14px;">
                     <div>
-                        <p style="color: #c4b5fd;">Level</p>
-                        <p style="font-size: 24px; font-weight: bold;">1</p>
+                        <p style="color: #c4b5fd;">Coins</p>
+                        <p style="font-size: 24px; font-weight: bold;" id="homeCoins">0</p>
                     </div>
                     <div>
-                        <p style="color: #c4b5fd;">Referrals</p>
-                        <p style="font-size: 24px; font-weight: bold;" id="homeReferrals">0</p>
+                        <p style="color: #c4b5fd;">Spins Left</p>
+                        <p style="font-size: 24px; font-weight: bold;" id="homeSpins">30</p>
                     </div>
                 </div>
             </div>
@@ -514,12 +656,12 @@
                 <button class="nav-btn" onclick="showPage('tapPage')">
                     <div style="font-size: 40px; margin-bottom: 10px;">🪙</div>
                     <div>Tap to Earn</div>
-                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;"><span id="navClaims">0</span>/<span id="dailyLimit">1000</span></div>
+                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Earn 0.005 USDT per tap</div>
                 </button>
                 <button class="nav-btn pink" onclick="showPage('referralPage')">
                     <div style="font-size: 40px; margin-bottom: 10px;">👥</div>
                     <div>Invite Friends</div>
-                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Earn <span id="referralBonusAmt">0.001</span> USDT</div>
+                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Get Your Referral Link</div>
                 </button>
                 <button class="nav-btn blue" onclick="showPage('tasksPage')">
                     <div style="font-size: 40px; margin-bottom: 10px;">✅</div>
@@ -529,7 +671,12 @@
                 <button class="nav-btn green" onclick="showPage('withdrawPage')">
                     <div style="font-size: 40px; margin-bottom: 10px;">💰</div>
                     <div>Withdraw</div>
-                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Min: <span id="minWithdrawAmt">0.05</span> USDT</div>
+                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Min: 50 USDT</div>
+                </button>
+                <button class="nav-btn" style="background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);" onclick="showPage('spinPage')">
+                    <div style="font-size: 40px; margin-bottom: 10px;">🎡</div>
+                    <div>Spin Wheel</div>
+                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Win USDT Daily</div>
                 </button>
             </div>
         </div>
@@ -548,6 +695,7 @@
                     <div class="progress-bar" style="margin-top: 20px;">
                         <div class="progress-fill" id="tapProgress" style="width: 0%;"></div>
                     </div>
+                    <p style="color: #fbbf24; margin-top: 10px;">Taps until next ad: <span id="tapsUntilAd">10</span></p>
                 </div>
             </div>
 
@@ -558,7 +706,8 @@
             <div class="balance-display">
                 <p style="color: #fed7aa; font-size: 18px;">Current Balance</p>
                 <h3 id="tapBalance">0 USDT</h3>
-                <p style="color: #fbbf24; margin-top: 10px;"><span id="usdtPerClaim">0.001</span> USDT per tap</p>
+                <p style="color: #fbbf24; margin-top: 10px;"><span id="usdtPerClaim">0.005</span> USDT per tap</p>
+                <p style="color: #fbbf24; margin-top: 5px;"><span id="coinPerTap">1</span> Coin per tap</p>
             </div>
         </div>
     </div>
@@ -570,44 +719,36 @@
             <h1 style="font-size: 36px; margin-bottom: 30px;">Invite Friends</h1>
 
             <div class="referral-stats">
-                <div style="font-size: 64px; margin-bottom: 20px;">👥</div>
-                <p style="color: #fbcfe8;">Total Referrals</p>
-                <h2 id="referralCount">0</h2>
-                
-                <div class="reward-grid">
-                    <div class="reward-box">
-                        <p style="color: #fbcfe8;">Per Referral</p>
-                        <p style="font-size: 24px; font-weight: bold;" id="refBonusDisplay">0.001 USDT</p>
-                    </div>
-                    <div class="reward-box" style="background: rgba(168, 85, 247, 0.2);">
-                        <p style="color: #e9d5ff;">Total Earned</p>
-                        <p style="font-size: 24px; font-weight: bold;" id="referralEarned">0 USDT</p>
-                    </div>
-                </div>
+                <div style="font-size: 64px; margin-bottom: 20px;">📢</div>
+                <p style="color: #fbcfe8;">Join Our Telegram Channel</p>
+                <h2 style="font-size: 48px;">CoinEgg</h2>
+                <p style="color: #fbcfe8;">Get updates & notifications</p>
             </div>
 
             <div class="levels-card">
-                <h3 style="font-size: 20px; margin-bottom: 20px;">Referral Rewards</h3>
+                <h3 style="font-size: 20px; margin-bottom: 20px;">Why Join?</h3>
                 <div class="level-item">
-                    <span>1-5 Friends</span>
-                    <span style="color: #fbbf24; font-weight: bold;">100 🪙 bonus</span>
+                    <span>Get latest updates</span>
+                    <span style="color: #fbcfe8; font-weight: bold;">📢</span>
                 </div>
                 <div class="level-item">
-                    <span>6-20 Friends</span>
-                    <span style="color: #fbbf24; font-weight: bold;">200 🪙 bonus</span>
+                    <span>Stay informed</span>
+                    <span style="color: #fbcfe8; font-weight: bold;">💡</span>
                 </div>
                 <div class="level-item">
-                    <span>20+ Friends</span>
-                    <span style="color: #fbbf24; font-weight: bold;">VIP Status 👑</span>
+                    <span>Community support</span>
+                    <span style="color: #fbcfe8; font-weight: bold;">👥</span>
                 </div>
             </div>
 
             <div class="link-card">
-                <p style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px;">Your Referral Link</p>
-                <div class="link-display" id="referralLinkDisplay">Loading...</div>
-                <button class="copy-btn" onclick="copyReferral()">Copy Link & Share</button>
-                <p style="text-align: center; margin-top: 15px; font-size: 14px; color: #fbcfe8;">
-                    Earn <span id="commissionRate">3%</span> commission from each referral's earnings
+                <p style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;">Click below to get your referral link</p>
+                <button class="link-btn" onclick="goToTelegram()">
+                    <span class="telegram-icon">👥</span>
+                    <span>Your Referral Link</span>
+                </button>
+                <p style="text-align: center; margin-top: 20px; font-size: 14px; color: #fbcfe8;">
+                    You will be redirected to Telegram
                 </p>
             </div>
         </div>
@@ -620,12 +761,23 @@
             <h1 style="font-size: 36px; margin-bottom: 30px;">Complete Tasks</h1>
 
             <div class="task-list" id="taskList">
-                <!-- Tasks will be dynamically added here -->
+                <div class="task-item">
+                    <div class="task-header">
+                        <div style="flex: 1;">
+                            <div class="task-title">Join Telegram Channel</div>
+                            <div class="task-reward">🪙 +1.00 USDT</div>
+                        </div>
+                        <div id="task1Status" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border-radius: 50%; padding: 10px; display: none;">✓</div>
+                    </div>
+                    <button class="task-btn" id="task1Btn" onclick="completeTask(1)">
+                        Join Channel
+                    </button>
+                </div>
             </div>
 
             <div class="progress-card">
                 <p style="color: #a5f3fc;">Task Progress</p>
-                <h3><span id="taskProgress">0</span>/5</h3>
+                <h3><span id="taskProgress">0</span>/1</h3>
             </div>
         </div>
     </div>
@@ -639,358 +791,257 @@
             <div class="balance-card">
                 <p style="color: #6ee7b7;">Available Balance</p>
                 <h2 id="withdrawBalance">0 USDT</h2>
+                <p style="color: #6ee7b7; margin-top: 10px;">Referrals: <span id="referralCount">0</span>/20 required</p>
             </div>
 
             <div class="warning-box" id="warningBox">
-                <p style="font-weight: bold;">⚠️ Minimum withdrawal: <span id="minWithdrawDisplay">0.05</span> USDT</p>
-                <p style="font-size: 14px; color: #fef3c7; margin-top: 10px;">You need <span id="usdtNeeded">0.05</span> more USDT</p>
+                <p style="font-weight: bold;">⚠️ Minimum withdrawal: 50 USDT</p>
+                <p style="font-size: 14px; color: #fef3c7; margin-top: 10px;">Minimum 20 referrals required for withdrawal</p>
             </div>
 
             <div class="methods-card">
-                <h3 style="margin-bottom: 15px;">Withdrawal Methods</h3>
+                <h3 style="margin-bottom: 15px;">Withdrawal Method</h3>
                 <div class="method-item">
                     <div class="method-dot"></div>
-                    <span>TON Wallet</span>
-                </div>
-                <div class="method-item">
-                    <div class="method-dot"></div>
-                    <span>USDT (TRC20)</span>
-                </div>
-                <div class="method-item">
-                    <div class="method-dot"></div>
-                    <span>Binance UID</span>
+                    <span>TON Wallet (The Open Network)</span>
                 </div>
             </div>
 
             <div style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 10px; color: #6ee7b7;">Withdrawal Amount (USDT)</label>
-                <input type="number" id="withdrawAmount" value="0.05" min="0.05" step="0.01" style="width: 100%; padding: 15px; border-radius: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
-                <p style="font-size: 12px; color: #fbbf24; margin-top: 5px;">Fee: <span id="withdrawFee">5%</span> • You'll receive: <span id="netAmount">0.0475</span> USDT</p>
+                <input type="number" id="withdrawAmount" value="50" min="50" step="1" style="width: 100%; padding: 15px; border-radius: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                <p style="font-size: 12px; color: #fbbf24; margin-top: 5px;">Fee: 5% • You'll receive: <span id="netAmount">47.5</span> USDT</p>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <label style="display: block; margin-bottom: 10px; color: #6ee7b7;">Wallet Address</label>
-                <input type="text" id="walletAddress" placeholder="Enter your wallet address" style="width: 100%; padding: 15px; border-radius: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                <label style="display: block; margin-bottom: 10px; color: #6ee7b7;">TON Wallet Address</label>
+                <input type="text" id="walletAddress" placeholder="Enter your TON wallet address" style="width: 100%; padding: 15px; border-radius: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
             </div>
 
             <button class="withdraw-btn" id="withdrawBtn" onclick="requestWithdraw()">Request Withdrawal</button>
 
             <div class="withdraw-info">
-                <p>✓ Processing time: <span id="processingTime">24</span> hours</p>
-                <p>✓ Secure transactions</p>
-                <p>✓ 24/7 support</p>
+                <p>✓ Minimum withdrawal: 50 USDT</p>
+                <p>✓ Minimum 20 referrals required</p>
+                <p>✓ TON Wallet only</p>
+                <p>✓ Processing time: 24-48 hours</p>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, onSnapshot, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    <!-- Spin Page -->
+    <div id="spinPage" class="page">
+        <div class="container">
+            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+            <h1 style="font-size: 36px; margin-bottom: 30px;">Spin to Win USDT</h1>
 
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBjlZbKCTNVaZX_chtbyohx7CKnx5QdmLo",
-            authDomain: "coinegg.firebaseapp.com",
-            projectId: "coinegg",
-            storageBucket: "coinegg.firebasestorage.app",
-            messagingSenderId: "352839934946",
-            appId: "1:352839934946:web:c34ea243e94e8d2a098fbb",
-            measurementId: "G-5WK34TW21X"
+            <div class="spin-counter">
+                <div class="balance-card">
+                    <p style="color: #bae6fd;">Daily Spins Remaining</p>
+                    <h2 id="spinsLeft">30</h2>
+                    <p style="color: #bae6fd; margin-top: 10px;">Watch ad to spin each time</p>
+                </div>
+            </div>
+
+            <div class="spin-wheel">
+                <div class="wheel-pointer"></div>
+                <div class="wheel" id="wheel">
+                    <!-- Gift boxes will be positioned here -->
+                </div>
+            </div>
+
+            <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎡 SPIN WHEEL (Watch Ad)</button>
+
+            <div class="spin-result" id="spinResult">
+                Spin the wheel to win USDT!
+            </div>
+
+            <div class="progress-card" style="margin-top: 40px;">
+                <p style="color: #bae6fd;">Today's Winnings</p>
+                <h3 id="dailyWinnings">0 USDT</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Overlay -->
+    <div class="ad-overlay" id="adOverlay">
+        <button class="ad-close" onclick="closeAd()">×</button>
+        <div class="ad-container" id="adContainer">
+            <!-- Ad will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Gigapub Ads Fallback Integration
+        window.AdGigaFallback = function() {
+            return new Promise((resolve) => {
+                // Show ad overlay for fallback
+                document.getElementById('adOverlay').style.display = 'flex';
+                
+                // Simulate ad loading
+                setTimeout(() => {
+                    document.getElementById('adContainer').innerHTML = `
+                        <div style="width:100%;height:100%;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                            <div style="font-size:24px;color:#333;margin-bottom:20px;">🎥 Advertisement</div>
+                            <div style="width:300px;height:250px;background:#ddd;border-radius:10px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;">
+                                <div style="text-align:center;">
+                                    <div style="font-size:48px;">🪙</div>
+                                    <div style="color:#666;">Ad Content</div>
+                                </div>
+                            </div>
+                            <div style="color:#666;text-align:center;padding:0 20px;">
+                                Please wait 3 seconds...
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Simulate ad completion after 3 seconds
+                    setTimeout(() => {
+                        closeAd();
+                        resolve();
+                    }, 3000);
+                }, 500);
+            });
         };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+        // Gigapub Ads compatibility layer
+        if (window.showGiga === undefined) {
+            window.showGiga = window.AdGigaFallback;
+        }
+    </script>
 
-        // Global Variables
-        let currentUser = null;
-        let appSettings = {};
-        let userData = {
-            id: null,
-            username: null,
+    <script>
+        // App Data
+        let appData = {
             usdtBalance: 0,
+            coinBalance: 0,
             todayClaims: 0,
-            totalReferrals: 0,
+            dailyLimit: 1000,
+            spinsLeft: 30,
+            spinsToday: 0,
+            dailyWinnings: 0,
             completedTasks: [],
-            referrals: [],
-            status: 'active',
-            joinDate: new Date().toISOString().split('T')[0],
-            lastActive: new Date().toISOString()
+            referralCount: 0,
+            tapCount: 0,
+            usdtPerTap: 0.005,
+            coinPerTap: 1,
+            adsPerTap: 10,
+            adsPerSpin: 1,
+            autoAdInterval: 30, // seconds
+            minWithdraw: 50,
+            minReferrals: 20,
+            withdrawalFee: 5,
+            spinRewards: [
+                0.07, 0.07, 0.05, 0.03, 0.04, 0.01, 0.02, 0.01, 0.02, 0.01,
+                0.02, 0.01, 0.02, 0.01, 0.02, 0.01, 0.02, 0.01, 0.02, 0.01,
+                0.02, 0.01, 0.02, 0.01, 0.02, 0.01, 0.02, 0.01, 0.02, 0.01
+            ]
         };
 
-        // Get URL Parameters for referral
-        function getUrlParameter(name) {
-            name = name.replace(/[\[\]]/g, '\\$&');
-            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-            const results = regex.exec(window.location.href);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        // Initialize
+        function init() {
+            loadFromLocalStorage();
+            updateAllDisplays();
+            setupAutoAds();
+            
+            // Initialize spin wheel
+            initializeWheel();
+            
+            // Check daily reset
+            checkDailyReset();
         }
 
-        // Authenticate User
-        async function authenticateUser() {
-            try {
-                // Check for referral code
-                const referralCode = getUrlParameter('ref');
+        // Load from Local Storage
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('coinegg_data');
+            if (saved) {
+                const data = JSON.parse(saved);
+                appData = { ...appData, ...data };
                 
-                // Generate user ID or use existing
-                let userId = localStorage.getItem('coinegg_userId');
-                if (!userId) {
-                    userId = 'user_' + Math.random().toString(36).substr(2, 9);
-                    localStorage.setItem('coinegg_userId', userId);
+                // Check if it's a new day for spins
+                const lastSpinDate = localStorage.getItem('coinegg_lastSpinDate');
+                const today = new Date().toDateString();
+                if (lastSpinDate !== today) {
+                    appData.spinsLeft = 30;
+                    appData.spinsToday = 0;
+                    appData.dailyWinnings = 0;
+                    localStorage.setItem('coinegg_lastSpinDate', today);
                 }
-
-                // Authenticate with Firebase
-                const userCredential = await signInAnonymously(auth);
-                
-                // Load app settings
-                await loadSettings();
-                
-                // Load or create user data
-                await loadUserData(userId, referralCode);
-                
-                // Setup real-time listeners
-                setupRealtimeListeners();
-                
-            } catch (error) {
-                console.error("Authentication error:", error);
-                alert("Failed to connect to server. Please refresh.");
             }
         }
 
-        // Load App Settings
-        async function loadSettings() {
-            try {
-                const settingsDoc = await getDoc(doc(db, "settings", "appSettings"));
-                if (settingsDoc.exists()) {
-                    appSettings = settingsDoc.data();
-                    updateSettingsDisplay();
-                } else {
-                    // Default settings
-                    appSettings = {
-                        usdtPerClaim: 0.001,
-                        dailyClaimLimit: 1000,
-                        referralBonus: 0.001,
-                        minWithdrawal: 0.05,
-                        withdrawalFee: 5,
-                        referralCommission: 3,
-                        processingTime: 24,
-                        adminReferralLink: "https://t.me/gift_fest_io_bot?start=admin123"
-                    };
-                    await setDoc(doc(db, "settings", "appSettings"), appSettings);
-                    updateSettingsDisplay();
-                }
-            } catch (error) {
-                console.error("Error loading settings:", error);
-            }
-        }
-
-        // Update Settings Display
-        function updateSettingsDisplay() {
-            document.getElementById('usdtPerClaim').textContent = appSettings.usdtPerClaim.toFixed(4);
-            document.getElementById('dailyLimit').textContent = appSettings.dailyClaimLimit;
-            document.getElementById('dailyLimit2').textContent = appSettings.dailyClaimLimit;
-            document.getElementById('referralBonusAmt').textContent = appSettings.referralBonus.toFixed(4);
-            document.getElementById('minWithdrawAmt').textContent = appSettings.minWithdrawal.toFixed(2);
-            document.getElementById('minWithdrawDisplay').textContent = appSettings.minWithdrawal.toFixed(2);
-            document.getElementById('withdrawFee').textContent = appSettings.withdrawalFee + '%';
-            document.getElementById('commissionRate').textContent = appSettings.referralCommission + '%';
-            document.getElementById('processingTime').textContent = appSettings.processingTime;
-            document.getElementById('refBonusDisplay').textContent = appSettings.referralBonus.toFixed(4) + ' USDT';
-            calculateNetAmount();
-        }
-
-        // Load User Data
-        async function loadUserData(userId, referralCode = null) {
-            try {
-                const userRef = doc(db, "users", userId);
-                const userSnap = await getDoc(userRef);
-                
-                if (userSnap.exists()) {
-                    // Existing user
-                    userData = { id: userId, ...userSnap.data() };
-                    checkDailyReset();
-                } else {
-                    // New user
-                    userData.id = userId;
-                    userData.username = 'Player' + Math.floor(Math.random() * 10000);
-                    userData.joinDate = new Date().toISOString().split('T')[0];
-                    
-                    // Handle referral if present
-                    if (referralCode && referralCode !== userId) {
-                        await handleReferral(referralCode);
-                    }
-                    
-                    await setDoc(userRef, userData);
-                }
-                
-                currentUser = userData;
-                updateAllDisplays();
-                
-            } catch (error) {
-                console.error("Error loading user data:", error);
-            }
-        }
-
-        // Handle Referral
-        async function handleReferral(referrerId) {
-            try {
-                // Add referral to user's data
-                userData.referrer = referrerId;
-                
-                // Update referrer's data
-                const referrerRef = doc(db, "users", referrerId);
-                const referrerSnap = await getDoc(referrerRef);
-                
-                if (referrerSnap.exists()) {
-                    const referrerData = referrerSnap.data();
-                    const newReferrals = (referrerData.totalReferrals || 0) + 1;
-                    
-                    // Add bonus to referrer
-                    const bonusAmount = appSettings.referralBonus;
-                    const newBalance = (referrerData.usdtBalance || 0) + bonusAmount;
-                    
-                    await updateDoc(referrerRef, {
-                        totalReferrals: newReferrals,
-                        usdtBalance: newBalance,
-                        referrals: [...(referrerData.referrals || []), userId]
-                    });
-                    
-                    // Record referral transaction
-                    await addDoc(collection(db, "referrals"), {
-                        referrerId: referrerId,
-                        referredId: userId,
-                        bonusGiven: bonusAmount,
-                        commissionRate: appSettings.referralCommission,
-                        date: new Date().toISOString(),
-                        status: 'active'
-                    });
-                    
-                    alert(`🎉 Welcome! You joined using a referral link. Your referrer earned ${bonusAmount.toFixed(4)} USDT!`);
-                }
-                
-            } catch (error) {
-                console.error("Error handling referral:", error);
-            }
+        // Save to Local Storage
+        function saveToLocalStorage() {
+            localStorage.setItem('coinegg_data', JSON.stringify(appData));
         }
 
         // Check Daily Reset
         function checkDailyReset() {
-            const lastReset = localStorage.getItem('last_reset_' + userData.id);
+            const lastReset = localStorage.getItem('coinegg_lastReset');
             const today = new Date().toDateString();
             
             if (lastReset !== today) {
-                userData.todayClaims = 0;
-                localStorage.setItem('last_reset_' + userData.id, today);
-                updateUserInFirebase();
+                appData.todayClaims = 0;
+                appData.tapCount = 0;
+                localStorage.setItem('coinegg_lastReset', today);
+                saveToLocalStorage();
             }
         }
 
-        // Setup Real-time Listeners
-        function setupRealtimeListeners() {
-            // Listen for user updates
-            onSnapshot(doc(db, "users", userData.id), (doc) => {
-                if (doc.exists()) {
-                    userData = { id: doc.id, ...doc.data() };
-                    updateAllDisplays();
+        // Setup Auto Ads
+        function setupAutoAds() {
+            setInterval(() => {
+                if (Math.random() > 0.7) { // 30% chance every 30 seconds
+                    showAd();
                 }
-            });
-
-            // Listen for settings updates
-            onSnapshot(doc(db, "settings", "appSettings"), (doc) => {
-                if (doc.exists()) {
-                    appSettings = doc.data();
-                    updateSettingsDisplay();
-                    updateAllDisplays();
-                }
-            });
+            }, appData.autoAdInterval * 1000);
         }
 
-        // Update User in Firebase
-        async function updateUserInFirebase() {
-            try {
-                userData.lastActive = new Date().toISOString();
-                await updateDoc(doc(db, "users", userData.id), userData);
-            } catch (error) {
-                console.error("Error updating user:", error);
-            }
+        // Show Ad
+        function showAd() {
+            window.showGiga()
+                .then(() => {
+                    console.log('Auto ad completed');
+                })
+                .catch(e => {
+                    console.log('Auto ad error:', e);
+                });
+        }
+
+        // Close Ad
+        function closeAd() {
+            document.getElementById('adOverlay').style.display = 'none';
         }
 
         // Handle Tap
         async function handleTap() {
-            if (userData.todayClaims >= appSettings.dailyClaimLimit) {
-                alert(`Daily claim limit reached! Come back tomorrow.\nLimit: ${appSettings.dailyClaimLimit} claims/day`);
+            if (appData.todayClaims >= appData.dailyLimit) {
+                alert(`Daily limit reached! Come back tomorrow.\nLimit: ${appData.dailyLimit} claims/day`);
                 return;
             }
 
-            try {
-                // Add USDT to user's balance
-                const earnings = appSettings.usdtPerClaim;
-                userData.usdtBalance = (userData.usdtBalance || 0) + earnings;
-                userData.todayClaims += 1;
+            // Increment counters
+            appData.tapCount++;
+            appData.todayClaims++;
+            appData.coinBalance += appData.coinPerTap;
+            appData.usdtBalance += appData.usdtPerTap;
 
-                // Update Firebase
-                await updateDoc(doc(db, "users", userData.id), {
-                    usdtBalance: userData.usdtBalance,
-                    todayClaims: userData.todayClaims,
-                    lastActive: new Date().toISOString()
-                });
+            // Floating coin animation
+            showCoinAnimation(appData.usdtPerTap);
 
-                // Handle referral commission if user has a referrer
-                if (userData.referrer) {
-                    const commissionAmount = earnings * (appSettings.referralCommission / 100);
-                    await addReferralCommission(userData.referrer, commissionAmount);
+            // Check if ad should show (every 10 taps)
+            if (appData.tapCount % appData.adsPerTap === 0) {
+                try {
+                    await window.showGiga();
+                    console.log('Tap ad completed');
+                } catch (error) {
+                    console.log('Tap ad error:', error);
                 }
-
-                // Floating coin animation
-                showCoinAnimation(earnings);
-
-                // Update displays
-                updateAllDisplays();
-
-            } catch (error) {
-                console.error("Error handling tap:", error);
-                alert("Error processing tap. Please try again.");
             }
-        }
 
-        // Add Referral Commission
-        async function addReferralCommission(referrerId, amount) {
-            try {
-                const referrerRef = doc(db, "users", referrerId);
-                const referrerSnap = await getDoc(referrerRef);
-                
-                if (referrerSnap.exists()) {
-                    const referrerData = referrerSnap.data();
-                    const newBalance = (referrerData.usdtBalance || 0) + amount;
-                    
-                    await updateDoc(referrerRef, {
-                        usdtBalance: newBalance
-                    });
-
-                    // Update referral record
-                    const referralsQuery = query(
-                        collection(db, "referrals"),
-                        where("referrerId", "==", referrerId),
-                        where("referredId", "==", userData.id)
-                    );
-                    
-                    const referralsSnap = await getDocs(referralsQuery);
-                    if (!referralsSnap.empty) {
-                        const refDoc = referralsSnap.docs[0];
-                        const currentCommission = refDoc.data().commissionEarned || 0;
-                        await updateDoc(refDoc.ref, {
-                            commissionEarned: currentCommission + amount
-                        });
-                    }
-                }
-            } catch (error) {
-                console.error("Error adding commission:", error);
-            }
+            // Update and save
+            updateAllDisplays();
+            saveToLocalStorage();
         }
 
         // Show Coin Animation
@@ -998,7 +1049,7 @@
             const tapArea = document.getElementById('tapArea');
             const coin = document.createElement('div');
             coin.className = 'coin-float';
-            coin.textContent = `+${amount.toFixed(4)}`;
+            coin.textContent = `+${amount.toFixed(3)}`;
             coin.style.left = (Math.random() * 200 + 140) + 'px';
             coin.style.top = '150px';
             tapArea.appendChild(coin);
@@ -1008,239 +1059,225 @@
             }, 1000);
         }
 
-        // Calculate Net Withdrawal Amount
-        function calculateNetAmount() {
-            const amount = parseFloat(document.getElementById('withdrawAmount').value) || appSettings.minWithdrawal;
-            const feePercentage = appSettings.withdrawalFee;
-            const feeAmount = amount * (feePercentage / 100);
-            const netAmount = amount - feeAmount;
+        // Go to Telegram
+        function goToTelegram() {
+            const telegramLink = 'https://t.me/gift_fest_io_bot?start=null';
+            // Open Telegram link in new tab
+            window.open(telegramLink, '_blank');
+        }
+
+        // Complete Task
+        async function completeTask(taskId) {
+            if (appData.completedTasks.includes(taskId)) return;
+
+            // Open Telegram channel
+            window.open('https://t.me/Feeddy735', '_blank');
             
-            document.getElementById('netAmount').textContent = netAmount.toFixed(4);
-            return netAmount;
+            // Mark as completed
+            appData.completedTasks.push(taskId);
+            
+            // Add reward
+            appData.usdtBalance += 1.00;
+            
+            // Update UI
+            document.getElementById(`task${taskId}Status`).style.display = 'block';
+            document.getElementById(`task${taskId}Btn`).classList.add('completed');
+            document.getElementById(`task${taskId}Btn`).textContent = '✓ Completed';
+            document.getElementById(`task${taskId}Btn`).disabled = true;
+            
+            alert('✅ Task completed! You earned 1.00 USDT!');
+            
+            updateAllDisplays();
+            saveToLocalStorage();
         }
 
         // Request Withdrawal
-        async function requestWithdraw() {
+        function requestWithdraw() {
             const amount = parseFloat(document.getElementById('withdrawAmount').value);
             const walletAddress = document.getElementById('walletAddress').value.trim();
 
-            // Validation
-            if (amount < appSettings.minWithdrawal) {
-                alert(`Minimum withdrawal is ${appSettings.minWithdrawal.toFixed(2)} USDT`);
+            // Validations
+            if (amount < appData.minWithdraw) {
+                alert(`Minimum withdrawal is ${appData.minWithdraw} USDT`);
                 return;
             }
 
-            if (amount > userData.usdtBalance) {
+            if (amount > appData.usdtBalance) {
                 alert("Insufficient balance");
                 return;
             }
 
-            if (!walletAddress) {
-                alert("Please enter your wallet address");
+            if (appData.referralCount < appData.minReferrals) {
+                alert(`Minimum ${appData.minReferrals} referrals required for withdrawal.\nYou have ${appData.referralCount} referrals.`);
                 return;
             }
 
-            try {
-                // Create withdrawal request
-                await addDoc(collection(db, "withdrawals"), {
-                    userId: userData.id,
-                    username: userData.username,
-                    amount: amount,
-                    netAmount: calculateNetAmount(),
-                    fee: appSettings.withdrawalFee,
-                    walletAddress: walletAddress,
-                    method: walletAddress.startsWith('T') ? 'USDT (TRC20)' : 
-                            walletAddress.startsWith('1') ? 'Binance UID' : 'TON Wallet',
-                    status: 'pending',
-                    date: new Date().toISOString(),
-                    processedAt: null
-                });
-
-                // Deduct from user's balance
-                const newBalance = userData.usdtBalance - amount;
-                await updateDoc(doc(db, "users", userData.id), {
-                    usdtBalance: newBalance
-                });
-
-                alert(`✅ Withdrawal request submitted!\n\nAmount: ${amount.toFixed(4)} USDT\nFee: ${appSettings.withdrawalFee}%\nNet: ${calculateNetAmount().toFixed(4)} USDT\n\nYour request is pending admin approval.`);
-
-                // Reset form
-                document.getElementById('withdrawAmount').value = appSettings.minWithdrawal.toFixed(2);
-                document.getElementById('walletAddress').value = '';
-                
-                updateAllDisplays();
-
-            } catch (error) {
-                console.error("Error requesting withdrawal:", error);
-                alert("Error submitting withdrawal request. Please try again.");
-            }
-        }
-
-        // Render Tasks
-        async function renderTasks() {
-            const taskList = document.getElementById('taskList');
-            taskList.innerHTML = '';
-
-            // Get tasks from Firebase or use defaults
-            let tasks = [];
-            try {
-                const tasksSnap = await getDocs(collection(db, "tasks"));
-                if (!tasksSnap.empty) {
-                    tasksSnap.forEach(doc => {
-                        tasks.push({ id: doc.id, ...doc.data() });
-                    });
-                } else {
-                    // Default tasks
-                    tasks = [
-                        { id: 'task1', title: 'Join Telegram Channel', reward: 0.1, type: 'telegram', link: 'https://t.me/coinegg_channel' },
-                        { id: 'task2', title: 'Follow on Twitter', reward: 0.05, type: 'twitter', link: 'https://twitter.com/coinegg' },
-                        { id: 'task3', title: 'Daily Login Bonus', reward: 0.01, type: 'daily' },
-                        { id: 'task4', title: 'Invite 3 Friends', reward: 0.3, type: 'referral' },
-                        { id: 'task5', title: 'Watch Video Ad', reward: 0.02, type: 'ad' }
-                    ];
-                }
-            } catch (error) {
-                console.error("Error loading tasks:", error);
+            if (!walletAddress) {
+                alert("Please enter your TON wallet address");
+                return;
             }
 
-            tasks.forEach(task => {
-                const isCompleted = userData.completedTasks?.includes(task.id);
-                
-                const taskDiv = document.createElement('div');
-                taskDiv.className = 'task-item';
-                
-                if (task.link) {
-                    taskDiv.innerHTML = `
-                        <div class="task-header">
-                            <div style="flex: 1;">
-                                <div class="task-title">${task.title}</div>
-                                <div class="task-reward">🪙 +${task.reward.toFixed(4)} USDT</div>
-                            </div>
-                            ${isCompleted ? '<div style="background: #10b981; border-radius: 50%; padding: 10px;">✓</div>' : ''}
-                        </div>
-                        <button class="task-btn ${isCompleted ? 'completed' : ''}" 
-                                onclick="${isCompleted ? '' : `completeTask('${task.id}', ${task.reward}, '${task.link}')`}"
-                                ${isCompleted ? 'disabled' : ''}>
-                            ${isCompleted ? '✓ Completed' : 'Complete Task'}
-                        </button>
-                    `;
-                } else {
-                    taskDiv.innerHTML = `
-                        <div class="task-header">
-                            <div style="flex: 1;">
-                                <div class="task-title">${task.title}</div>
-                                <div class="task-reward">🪙 +${task.reward.toFixed(4)} USDT</div>
-                            </div>
-                            ${isCompleted ? '<div style="background: #10b981; border-radius: 50%; padding: 10px;">✓</div>' : ''}
-                        </div>
-                        <button class="task-btn ${isCompleted ? 'completed' : ''}" 
-                                onclick="${isCompleted ? '' : `completeTask('${task.id}', ${task.reward})`}"
-                                ${isCompleted ? 'disabled' : ''}>
-                            ${isCompleted ? '✓ Completed' : 'Complete Task'}
-                        </button>
-                    `;
-                }
-                
-                taskList.appendChild(taskDiv);
-            });
+            if (!walletAddress.startsWith('UQ') && !walletAddress.startsWith('EQ') && walletAddress.length < 48) {
+                alert("Please enter a valid TON wallet address");
+                return;
+            }
+
+            // Calculate fee and net amount
+            const fee = amount * (appData.withdrawalFee / 100);
+            const netAmount = amount - fee;
+
+            // Deduct from balance
+            appData.usdtBalance -= amount;
+
+            // Show success message
+            alert(`✅ Withdrawal request submitted!\n\nAmount: ${amount.toFixed(2)} USDT\nFee: ${fee.toFixed(2)} USDT (${appData.withdrawalFee}%)\nNet: ${netAmount.toFixed(2)} USDT\nTON Address: ${walletAddress}\n\nProcessing time: 24-48 hours`);
+
+            // Reset form
+            document.getElementById('withdrawAmount').value = appData.minWithdraw;
+            document.getElementById('walletAddress').value = '';
+
+            // Update and save
+            updateAllDisplays();
+            saveToLocalStorage();
         }
 
-        // Complete Task
-        async function completeTask(taskId, reward, link = null) {
-            if (userData.completedTasks?.includes(taskId)) return;
+        // Initialize Wheel
+        function initializeWheel() {
+            const wheel = document.getElementById('wheel');
+            wheel.innerHTML = '';
             
-            if (link) {
-                window.open(link, '_blank');
-            }
-
-            try {
-                // Add reward to user's balance
-                const newBalance = (userData.usdtBalance || 0) + reward;
-                const completedTasks = [...(userData.completedTasks || []), taskId];
+            // Create 12 gift boxes around the wheel
+            for (let i = 0; i < 12; i++) {
+                const angle = (i * 30) * Math.PI / 180;
+                const radius = 120;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
                 
-                await updateDoc(doc(db, "users", userData.id), {
-                    usdtBalance: newBalance,
-                    completedTasks: completedTasks
-                });
-
-                alert(`✅ Task completed! You earned ${reward.toFixed(4)} USDT!`);
+                const gift = document.createElement('div');
+                gift.className = 'gift-box';
+                gift.style.left = `calc(50% + ${x}px)`;
+                gift.style.top = `calc(50% + ${y}px)`;
+                gift.style.transform = `translate(-50%, -50%)`;
+                gift.textContent = '🎁';
                 
-                updateAllDisplays();
-                renderTasks();
-                
-            } catch (error) {
-                console.error("Error completing task:", error);
-                alert("Error completing task. Please try again.");
+                wheel.appendChild(gift);
             }
         }
 
-        // Copy Referral Link
-        function copyReferral() {
-            const link = `https://t.me/gift_fest_io_bot?start=${userData.id}`;
-            
-            navigator.clipboard.writeText(link).then(() => {
-                alert(`✅ Referral link copied!\n\nShare it with friends to earn:\n• ${appSettings.referralBonus.toFixed(4)} USDT per referral\n• ${appSettings.referralCommission}% commission from their earnings`);
-            }).catch(() => {
-                const input = document.createElement('input');
-                input.value = link;
-                document.body.appendChild(input);
-                input.select();
-                document.execCommand('copy');
-                document.body.removeChild(input);
-                alert('✅ Referral link copied!');
-            });
+        // Spin Wheel
+        async function spinWheel() {
+            if (appData.spinsLeft <= 0) {
+                alert('No spins left today! Come back tomorrow.');
+                return;
+            }
+
+            const spinBtn = document.getElementById('spinBtn');
+            const wheel = document.getElementById('wheel');
+            const resultDiv = document.getElementById('spinResult');
+
+            // Disable button during spin
+            spinBtn.disabled = true;
+            spinBtn.textContent = 'Watching Ad...';
+
+            try {
+                // Show ad before spin using Gigapub
+                await window.showGiga();
+                console.log('Spin ad completed');
+                
+                // Re-enable button
+                spinBtn.disabled = false;
+                spinBtn.textContent = '🎡 SPIN WHEEL (Watch Ad)';
+
+                // Deduct spin
+                appData.spinsLeft--;
+                appData.spinsToday++;
+
+                // Calculate random reward
+                const rewardIndex = appData.spinsToday - 1;
+                let reward;
+                
+                if (rewardIndex < appData.spinRewards.length) {
+                    reward = appData.spinRewards[rewardIndex];
+                } else {
+                    // If more than 30 spins (shouldn't happen), give random reward
+                    reward = [0.01, 0.02, 0.03, 0.04, 0.05][Math.floor(Math.random() * 5)];
+                }
+
+                // Add reward
+                appData.usdtBalance += reward;
+                appData.dailyWinnings += reward;
+
+                // Spin animation
+                const spins = 5 + Math.random() * 3; // 5-8 full spins
+                const extraDegrees = Math.random() * 360; // Random stopping point
+                const totalDegrees = spins * 360 + extraDegrees;
+                
+                wheel.style.transform = `rotate(${totalDegrees}deg)`;
+                
+                // Show result after spin
+                setTimeout(() => {
+                    resultDiv.innerHTML = `🎉 Congratulations! You won <span style="color:#fbbf24;font-weight:bold;">${reward.toFixed(2)} USDT</span>!`;
+                    updateAllDisplays();
+                    saveToLocalStorage();
+                }, 3000);
+
+            } catch (error) {
+                // If ad fails, still allow spin but with smaller reward
+                console.log('Spin ad error, giving reduced reward:', error);
+                
+                spinBtn.disabled = false;
+                spinBtn.textContent = '🎡 SPIN WHEEL (Watch Ad)';
+                
+                appData.spinsLeft--;
+                const reward = 0.01;
+                appData.usdtBalance += reward;
+                appData.dailyWinnings += reward;
+                
+                resultDiv.innerHTML = `🎉 You won <span style="color:#fbbf24;font-weight:bold;">${reward.toFixed(2)} USDT</span>!`;
+                updateAllDisplays();
+                saveToLocalStorage();
+            }
         }
 
         // Update All Displays
         function updateAllDisplays() {
-            if (!userData) return;
-
             // Home page
-            document.getElementById('homeBalance').textContent = (userData.usdtBalance || 0).toFixed(4) + ' USDT';
-            document.getElementById('homeReferrals').textContent = userData.totalReferrals || 0;
-            document.getElementById('homeTasksCompleted').textContent = userData.completedTasks?.length || 0;
-            document.getElementById('homeTodayClaims').textContent = userData.todayClaims || 0;
-            document.getElementById('navClaims').textContent = userData.todayClaims || 0;
-            document.getElementById('referralLinkDisplay').textContent = `https://t.me/gift_fest_io_bot?start=${userData.id}`;
+            document.getElementById('homeBalance').textContent = appData.usdtBalance.toFixed(3) + ' USDT';
+            document.getElementById('homeCoins').textContent = appData.coinBalance;
+            document.getElementById('homeSpins').textContent = appData.spinsLeft;
+            document.getElementById('homeTasksCompleted').textContent = appData.completedTasks.length;
+            document.getElementById('homeTodayClaims').textContent = appData.todayClaims;
 
             // Tap page
-            document.getElementById('tapCounter').textContent = (userData.todayClaims || 0) + '/' + (appSettings.dailyClaimLimit || 1000);
-            const progressPercent = ((userData.todayClaims || 0) / (appSettings.dailyClaimLimit || 1000)) * 100;
+            document.getElementById('tapCounter').textContent = appData.todayClaims + '/' + appData.dailyLimit;
+            const progressPercent = (appData.todayClaims / appData.dailyLimit) * 100;
             document.getElementById('tapProgress').style.width = progressPercent + '%';
-            document.getElementById('tapBalance').textContent = (userData.usdtBalance || 0).toFixed(4) + ' USDT';
+            document.getElementById('tapBalance').textContent = appData.usdtBalance.toFixed(3) + ' USDT';
+            document.getElementById('tapsUntilAd').textContent = appData.adsPerTap - (appData.tapCount % appData.adsPerTap);
             
             const tapBtn = document.getElementById('tapButton');
-            if ((userData.todayClaims || 0) >= (appSettings.dailyClaimLimit || 1000)) {
-                tapBtn.disabled = true;
-            } else {
-                tapBtn.disabled = false;
-            }
-
-            // Referral page
-            document.getElementById('referralCount').textContent = userData.totalReferrals || 0;
-            const totalEarned = (userData.totalReferrals || 0) * (appSettings.referralBonus || 0.001);
-            document.getElementById('referralEarned').textContent = totalEarned.toFixed(4) + ' USDT';
+            tapBtn.disabled = appData.todayClaims >= appData.dailyLimit;
 
             // Withdraw page
-            document.getElementById('withdrawBalance').textContent = (userData.usdtBalance || 0).toFixed(4) + ' USDT';
+            document.getElementById('withdrawBalance').textContent = appData.usdtBalance.toFixed(3) + ' USDT';
+            document.getElementById('referralCount').textContent = appData.referralCount;
+            
             const withdrawBtn = document.getElementById('withdrawBtn');
             const warningBox = document.getElementById('warningBox');
             
-            if ((userData.usdtBalance || 0) < (appSettings.minWithdrawal || 0.05)) {
+            if (appData.usdtBalance < appData.minWithdraw || appData.referralCount < appData.minReferrals) {
                 withdrawBtn.disabled = true;
                 warningBox.style.display = 'block';
-                const needed = (appSettings.minWithdrawal || 0.05) - (userData.usdtBalance || 0);
-                document.getElementById('usdtNeeded').textContent = needed.toFixed(4);
             } else {
                 withdrawBtn.disabled = false;
                 warningBox.style.display = 'none';
             }
 
-            // Task progress
-            document.getElementById('taskProgress').textContent = userData.completedTasks?.length || 0;
-            
-            // Calculate net amount for withdrawal
-            calculateNetAmount();
+            // Calculate net withdrawal amount
+            const amount = parseFloat(document.getElementById('withdrawAmount').value) || appData.minWithdraw;
+            const fee = amount * (appData.withdrawalFee / 100);
+            const netAmount = amount - fee;
+            document.getElementById('netAmount').textContent = netAmount.toFixed(2);
         }
 
         // Show Page
@@ -1248,28 +1285,10 @@
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             updateAllDisplays();
-            
-            if (pageId === 'tasksPage') {
-                renderTasks();
-            }
         }
 
-        // Event Listeners for Withdrawal Amount
-        document.getElementById('withdrawAmount')?.addEventListener('input', function() {
-            calculateNetAmount();
-        });
-
-        // Initialize App
-        window.onload = function() {
-            authenticateUser();
-        };
-
-        // Make functions globally available
-        window.showPage = showPage;
-        window.handleTap = handleTap;
-        window.copyReferral = copyReferral;
-        window.requestWithdraw = requestWithdraw;
-        window.calculateNetAmount = calculateNetAmount;
+        // Initialize on load
+        window.onload = init;
     </script>
 </body>
 </html>
