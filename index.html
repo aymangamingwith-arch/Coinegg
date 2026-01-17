@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪙 CoinEgg - Tap to Earn USDT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Home Page */
+        #homePage {
+            background: linear-gradient(180deg, #4c1d95 0%, #5b21b6 50%, #312e81 100%);
+            color: white;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #c4b5fd;
+        }
+
+        .balance-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .balance-card h2 {
+            font-size: 56px;
+            margin: 10px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-box p {
+            font-size: 12px;
+            color: #bfdbfe;
+            margin-top: 5px;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+            border: none;
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav-btn.pink {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+        }
+
+        .nav-btn.blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        }
+
+        .nav-btn.green {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        /* Tap Page */
+        #tapPage {
+            background: linear-gradient(180deg, #78350f 0%, #c2410c 50%, #991b1b 100%);
+            color: white;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .tap-counter {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .tap-counter h2 {
+            font-size: 56px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24 0%, #f97316 100%);
+            transition: width 0.3s;
+        }
+
+        .tap-area {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tap-button {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbbf24 0%, #f97316 50%, #dc2626 100%);
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            font-size: 100px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .tap-button:active {
+            transform: scale(0.9);
+        }
+
+        .tap-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .coin-float {
+            position: absolute;
+            font-size: 36px;
+            font-weight: bold;
+            color: #fbbf24;
+            pointer-events: none;
+            animation: float 1s ease-out forwards;
+        }
+
+        @keyframes float {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-100px); }
+        }
+
+        .balance-display {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .balance-display h3 {
+            font-size: 48px;
+        }
+
+        /* Referral Page */
+        #referralPage {
+            background: linear-gradient(180deg, #831843 0%, #7e22ce 50%, #4338ca 100%);
+            color: white;
+        }
+
+        .referral-stats {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .referral-stats h2 {
+            font-size: 64px;
+            margin: 20px 0;
+        }
+
+        .reward-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .reward-box {
+            background: rgba(236, 72, 153, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .levels-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .level-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .link-card {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            border-radius: 30px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .link-display {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            word-break: break-all;
+            font-size: 14px;
+        }
+
+        .copy-btn {
+            width: 100%;
+            background: white;
+            color: #a855f7;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background: #f3e8ff;
+        }
+
+        /* Tasks Page */
+        #tasksPage {
+            background: linear-gradient(180deg, #1e3a8a 0%, #0e7490 50%, #115e59 100%);
+            color: white;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .task-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .task-reward {
+            color: #fbbf24;
+            font-weight: bold;
+        }
+
+        .task-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .task-btn.completed {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+            cursor: default;
+        }
+
+        .progress-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .progress-card h3 {
+            font-size: 36px;
+            margin-top: 10px;
+        }
+
+        /* Withdraw Page */
+        #withdrawPage {
+            background: linear-gradient(180deg, #065f46 0%, #047857 50%, #115e59 100%);
+            color: white;
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid #fbbf24;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .methods-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .method-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .method-dot {
+            width: 10px;
+            height: 10px;
+            background: #10b981;
+            border-radius: 50%;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid #3b82f6;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .withdraw-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .withdraw-btn:disabled {
+            background: #6b7280;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .withdraw-info {
+            text-align: center;
+            margin-top: 30px;
+            color: #6ee7b7;
+        }
+
+        .withdraw-info p {
+            margin: 5px 0;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Page -->
+    <div id="homePage" class="page active">
+        <div class="container">
+            <div class="header">
+                <h1>🪙 CoinEgg</h1>
+                <p>Tap & Earn Free USDT</p>
+            </div>
+
+            <div class="balance-card">
+                <p style="color: #c4b5fd;">Total Balance</p>
+                <h2 id="homeBalance">0 USDT</h2>
+                <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; font-size: 14px;">
+                    <div>
+                        <p style="color: #c4b5fd;">Level</p>
+                        <p style="font-size: 24px; font-weight: bold;">1</p>
+                    </div>
+                    <div>
+                        <p style="color: #c4b5fd;">Referrals</p>
+                        <p style="font-size: 24px; font-weight: bold;" id="homeReferrals">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div style="font-size: 24px;">🏆</div>
+                    <p>Rank</p>
+                    <p style="font-weight: bold; color: white;">#<span id="homeRank">999</span></p>
+                </div>
+                <div class="stat-box">
+                    <div style="font-size: 24px;">🎁</div>
+                    <p>Tasks</p>
+                    <p style="font-weight: bold; color: white;"><span id="homeTasksCompleted">0</span>/5</p>
+                </div>
+                <div class="stat-box">
+                    <div style="font-size: 24px;">🪙</div>
+                    <p>Today</p>
+                    <p style="font-weight: bold; color: white;" id="homeTodayClaims">0</p>
+                </div>
+            </div>
+
+            <div class="nav-grid">
+                <button class="nav-btn" onclick="showPage('tapPage')">
+                    <div style="font-size: 40px; margin-bottom: 10px;">🪙</div>
+                    <div>Tap to Earn</div>
+                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;"><span id="navClaims">0</span>/<span id="dailyLimit">1000</span></div>
+                </button>
+                <button class="nav-btn pink" onclick="showPage('referralPage')">
+                    <div style="font-size: 40px; margin-bottom: 10px;">👥</div>
+                    <div>Invite Friends</div>
+                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Earn <span id="referralBonusAmt">0.001</span> USDT</div>
+                </button>
+                <button class="nav-btn blue" onclick="showPage('tasksPage')">
+                    <div style="font-size: 40px; margin-bottom: 10px;">✅</div>
+                    <div>Tasks</div>
+                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Complete & earn</div>
+                </button>
+                <button class="nav-btn green" onclick="showPage('withdrawPage')">
+                    <div style="font-size: 40px; margin-bottom: 10px;">💰</div>
+                    <div>Withdraw</div>
+                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Min: <span id="minWithdrawAmt">0.05</span> USDT</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tap Page -->
+    <div id="tapPage" class="page">
+        <div class="container">
+            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+            <h1 style="font-size: 36px; margin-bottom: 30px;">Tap to Earn USDT</h1>
+
+            <div class="tap-counter">
+                <div class="balance-card">
+                    <p style="color: #fed7aa;">Today's Claims</p>
+                    <h2 id="tapCounter">0/<span id="dailyLimit2">1000</span></h2>
+                    <div class="progress-bar" style="margin-top: 20px;">
+                        <div class="progress-fill" id="tapProgress" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tap-area" id="tapArea">
+                <button class="tap-button" id="tapButton" onclick="handleTap()">🪙</button>
+            </div>
+
+            <div class="balance-display">
+                <p style="color: #fed7aa; font-size: 18px;">Current Balance</p>
+                <h3 id="tapBalance">0 USDT</h3>
+                <p style="color: #fbbf24; margin-top: 10px;"><span id="usdtPerClaim">0.001</span> USDT per tap</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Referral Page -->
+    <div id="referralPage" class="page">
+        <div class="container">
+            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+            <h1 style="font-size: 36px; margin-bottom: 30px;">Invite Friends</h1>
+
+            <div class="referral-stats">
+                <div style="font-size: 64px; margin-bottom: 20px;">👥</div>
+                <p style="color: #fbcfe8;">Total Referrals</p>
+                <h2 id="referralCount">0</h2>
+                
+                <div class="reward-grid">
+                    <div class="reward-box">
+                        <p style="color: #fbcfe8;">Per Referral</p>
+                        <p style="font-size: 24px; font-weight: bold;" id="refBonusDisplay">0.001 USDT</p>
+                    </div>
+                    <div class="reward-box" style="background: rgba(168, 85, 247, 0.2);">
+                        <p style="color: #e9d5ff;">Total Earned</p>
+                        <p style="font-size: 24px; font-weight: bold;" id="referralEarned">0 USDT</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="levels-card">
+                <h3 style="font-size: 20px; margin-bottom: 20px;">Referral Rewards</h3>
+                <div class="level-item">
+                    <span>1-5 Friends</span>
+                    <span style="color: #fbbf24; font-weight: bold;">100 🪙 bonus</span>
+                </div>
+                <div class="level-item">
+                    <span>6-20 Friends</span>
+                    <span style="color: #fbbf24; font-weight: bold;">200 🪙 bonus</span>
+                </div>
+                <div class="level-item">
+                    <span>20+ Friends</span>
+                    <span style="color: #fbbf24; font-weight: bold;">VIP Status 👑</span>
+                </div>
+            </div>
+
+            <div class="link-card">
+                <p style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px;">Your Referral Link</p>
+                <div class="link-display" id="referralLinkDisplay">Loading...</div>
+                <button class="copy-btn" onclick="copyReferral()">Copy Link & Share</button>
+                <p style="text-align: center; margin-top: 15px; font-size: 14px; color: #fbcfe8;">
+                    Earn <span id="commissionRate">3%</span> commission from each referral's earnings
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tasks Page -->
+    <div id="tasksPage" class="page">
+        <div class="container">
+            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+            <h1 style="font-size: 36px; margin-bottom: 30px;">Complete Tasks</h1>
+
+            <div class="task-list" id="taskList">
+                <!-- Tasks will be dynamically added here -->
+            </div>
+
+            <div class="progress-card">
+                <p style="color: #a5f3fc;">Task Progress</p>
+                <h3><span id="taskProgress">0</span>/5</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Page -->
+    <div id="withdrawPage" class="page">
+        <div class="container">
+            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+            <h1 style="font-size: 36px; margin-bottom: 30px;">Withdraw USDT</h1>
+
+            <div class="balance-card">
+                <p style="color: #6ee7b7;">Available Balance</p>
+                <h2 id="withdrawBalance">0 USDT</h2>
+            </div>
+
+            <div class="warning-box" id="warningBox">
+                <p style="font-weight: bold;">⚠️ Minimum withdrawal: <span id="minWithdrawDisplay">0.05</span> USDT</p>
+                <p style="font-size: 14px; color: #fef3c7; margin-top: 10px;">You need <span id="usdtNeeded">0.05</span> more USDT</p>
+            </div>
+
+            <div class="methods-card">
+                <h3 style="margin-bottom: 15px;">Withdrawal Methods</h3>
+                <div class="method-item">
+                    <div class="method-dot"></div>
+                    <span>TON Wallet</span>
+                </div>
+                <div class="method-item">
+                    <div class="method-dot"></div>
+                    <span>USDT (TRC20)</span>
+                </div>
+                <div class="method-item">
+                    <div class="method-dot"></div>
+                    <span>Binance UID</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 10px; color: #6ee7b7;">Withdrawal Amount (USDT)</label>
+                <input type="number" id="withdrawAmount" value="0.05" min="0.05" step="0.01" style="width: 100%; padding: 15px; border-radius: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                <p style="font-size: 12px; color: #fbbf24; margin-top: 5px;">Fee: <span id="withdrawFee">5%</span> • You'll receive: <span id="netAmount">0.0475</span> USDT</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 10px; color: #6ee7b7;">Wallet Address</label>
+                <input type="text" id="walletAddress" placeholder="Enter your wallet address" style="width: 100%; padding: 15px; border-radius: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+            </div>
+
+            <button class="withdraw-btn" id="withdrawBtn" onclick="requestWithdraw()">Request Withdrawal</button>
+
+            <div class="withdraw-info">
+                <p>✓ Processing time: <span id="processingTime">24</span> hours</p>
+                <p>✓ Secure transactions</p>
+                <p>✓ 24/7 support</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, onSnapshot, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBjlZbKCTNVaZX_chtbyohx7CKnx5QdmLo",
+            authDomain: "coinegg.firebaseapp.com",
+            projectId: "coinegg",
+            storageBucket: "coinegg.firebasestorage.app",
+            messagingSenderId: "352839934946",
+            appId: "1:352839934946:web:c34ea243e94e8d2a098fbb",
+            measurementId: "G-5WK34TW21X"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Global Variables
+        let currentUser = null;
+        let appSettings = {};
+        let userData = {
+            id: null,
+            username: null,
+            usdtBalance: 0,
+            todayClaims: 0,
+            totalReferrals: 0,
+            completedTasks: [],
+            referrals: [],
+            status: 'active',
+            joinDate: new Date().toISOString().split('T')[0],
+            lastActive: new Date().toISOString()
+        };
+
+        // Get URL Parameters for referral
+        function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Authenticate User
+        async function authenticateUser() {
+            try {
+                // Check for referral code
+                const referralCode = getUrlParameter('ref');
+                
+                // Generate user ID or use existing
+                let userId = localStorage.getItem('coinegg_userId');
+                if (!userId) {
+                    userId = 'user_' + Math.random().toString(36).substr(2, 9);
+                    localStorage.setItem('coinegg_userId', userId);
+                }
+
+                // Authenticate with Firebase
+                const userCredential = await signInAnonymously(auth);
+                
+                // Load app settings
+                await loadSettings();
+                
+                // Load or create user data
+                await loadUserData(userId, referralCode);
+                
+                // Setup real-time listeners
+                setupRealtimeListeners();
+                
+            } catch (error) {
+                console.error("Authentication error:", error);
+                alert("Failed to connect to server. Please refresh.");
+            }
+        }
+
+        // Load App Settings
+        async function loadSettings() {
+            try {
+                const settingsDoc = await getDoc(doc(db, "settings", "appSettings"));
+                if (settingsDoc.exists()) {
+                    appSettings = settingsDoc.data();
+                    updateSettingsDisplay();
+                } else {
+                    // Default settings
+                    appSettings = {
+                        usdtPerClaim: 0.001,
+                        dailyClaimLimit: 1000,
+                        referralBonus: 0.001,
+                        minWithdrawal: 0.05,
+                        withdrawalFee: 5,
+                        referralCommission: 3,
+                        processingTime: 24,
+                        adminReferralLink: "https://t.me/gift_fest_io_bot?start=admin123"
+                    };
+                    await setDoc(doc(db, "settings", "appSettings"), appSettings);
+                    updateSettingsDisplay();
+                }
+            } catch (error) {
+                console.error("Error loading settings:", error);
+            }
+        }
+
+        // Update Settings Display
+        function updateSettingsDisplay() {
+            document.getElementById('usdtPerClaim').textContent = appSettings.usdtPerClaim.toFixed(4);
+            document.getElementById('dailyLimit').textContent = appSettings.dailyClaimLimit;
+            document.getElementById('dailyLimit2').textContent = appSettings.dailyClaimLimit;
+            document.getElementById('referralBonusAmt').textContent = appSettings.referralBonus.toFixed(4);
+            document.getElementById('minWithdrawAmt').textContent = appSettings.minWithdrawal.toFixed(2);
+            document.getElementById('minWithdrawDisplay').textContent = appSettings.minWithdrawal.toFixed(2);
+            document.getElementById('withdrawFee').textContent = appSettings.withdrawalFee + '%';
+            document.getElementById('commissionRate').textContent = appSettings.referralCommission + '%';
+            document.getElementById('processingTime').textContent = appSettings.processingTime;
+            document.getElementById('refBonusDisplay').textContent = appSettings.referralBonus.toFixed(4) + ' USDT';
+            calculateNetAmount();
+        }
+
+        // Load User Data
+        async function loadUserData(userId, referralCode = null) {
+            try {
+                const userRef = doc(db, "users", userId);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    // Existing user
+                    userData = { id: userId, ...userSnap.data() };
+                    checkDailyReset();
+                } else {
+                    // New user
+                    userData.id = userId;
+                    userData.username = 'Player' + Math.floor(Math.random() * 10000);
+                    userData.joinDate = new Date().toISOString().split('T')[0];
+                    
+                    // Handle referral if present
+                    if (referralCode && referralCode !== userId) {
+                        await handleReferral(referralCode);
+                    }
+                    
+                    await setDoc(userRef, userData);
+                }
+                
+                currentUser = userData;
+                updateAllDisplays();
+                
+            } catch (error) {
+                console.error("Error loading user data:", error);
+            }
+        }
+
+        // Handle Referral
+        async function handleReferral(referrerId) {
+            try {
+                // Add referral to user's data
+                userData.referrer = referrerId;
+                
+                // Update referrer's data
+                const referrerRef = doc(db, "users", referrerId);
+                const referrerSnap = await getDoc(referrerRef);
+                
+                if (referrerSnap.exists()) {
+                    const referrerData = referrerSnap.data();
+                    const newReferrals = (referrerData.totalReferrals || 0) + 1;
+                    
+                    // Add bonus to referrer
+                    const bonusAmount = appSettings.referralBonus;
+                    const newBalance = (referrerData.usdtBalance || 0) + bonusAmount;
+                    
+                    await updateDoc(referrerRef, {
+                        totalReferrals: newReferrals,
+                        usdtBalance: newBalance,
+                        referrals: [...(referrerData.referrals || []), userId]
+                    });
+                    
+                    // Record referral transaction
+                    await addDoc(collection(db, "referrals"), {
+                        referrerId: referrerId,
+                        referredId: userId,
+                        bonusGiven: bonusAmount,
+                        commissionRate: appSettings.referralCommission,
+                        date: new Date().toISOString(),
+                        status: 'active'
+                    });
+                    
+                    alert(`🎉 Welcome! You joined using a referral link. Your referrer earned ${bonusAmount.toFixed(4)} USDT!`);
+                }
+                
+            } catch (error) {
+                console.error("Error handling referral:", error);
+            }
+        }
+
+        // Check Daily Reset
+        function checkDailyReset() {
+            const lastReset = localStorage.getItem('last_reset_' + userData.id);
+            const today = new Date().toDateString();
+            
+            if (lastReset !== today) {
+                userData.todayClaims = 0;
+                localStorage.setItem('last_reset_' + userData.id, today);
+                updateUserInFirebase();
+            }
+        }
+
+        // Setup Real-time Listeners
+        function setupRealtimeListeners() {
+            // Listen for user updates
+            onSnapshot(doc(db, "users", userData.id), (doc) => {
+                if (doc.exists()) {
+                    userData = { id: doc.id, ...doc.data() };
+                    updateAllDisplays();
+                }
+            });
+
+            // Listen for settings updates
+            onSnapshot(doc(db, "settings", "appSettings"), (doc) => {
+                if (doc.exists()) {
+                    appSettings = doc.data();
+                    updateSettingsDisplay();
+                    updateAllDisplays();
+                }
+            });
+        }
+
+        // Update User in Firebase
+        async function updateUserInFirebase() {
+            try {
+                userData.lastActive = new Date().toISOString();
+                await updateDoc(doc(db, "users", userData.id), userData);
+            } catch (error) {
+                console.error("Error updating user:", error);
+            }
+        }
+
+        // Handle Tap
+        async function handleTap() {
+            if (userData.todayClaims >= appSettings.dailyClaimLimit) {
+                alert(`Daily claim limit reached! Come back tomorrow.\nLimit: ${appSettings.dailyClaimLimit} claims/day`);
+                return;
+            }
+
+            try {
+                // Add USDT to user's balance
+                const earnings = appSettings.usdtPerClaim;
+                userData.usdtBalance = (userData.usdtBalance || 0) + earnings;
+                userData.todayClaims += 1;
+
+                // Update Firebase
+                await updateDoc(doc(db, "users", userData.id), {
+                    usdtBalance: userData.usdtBalance,
+                    todayClaims: userData.todayClaims,
+                    lastActive: new Date().toISOString()
+                });
+
+                // Handle referral commission if user has a referrer
+                if (userData.referrer) {
+                    const commissionAmount = earnings * (appSettings.referralCommission / 100);
+                    await addReferralCommission(userData.referrer, commissionAmount);
+                }
+
+                // Floating coin animation
+                showCoinAnimation(earnings);
+
+                // Update displays
+                updateAllDisplays();
+
+            } catch (error) {
+                console.error("Error handling tap:", error);
+                alert("Error processing tap. Please try again.");
+            }
+        }
+
+        // Add Referral Commission
+        async function addReferralCommission(referrerId, amount) {
+            try {
+                const referrerRef = doc(db, "users", referrerId);
+                const referrerSnap = await getDoc(referrerRef);
+                
+                if (referrerSnap.exists()) {
+                    const referrerData = referrerSnap.data();
+                    const newBalance = (referrerData.usdtBalance || 0) + amount;
+                    
+                    await updateDoc(referrerRef, {
+                        usdtBalance: newBalance
+                    });
+
+                    // Update referral record
+                    const referralsQuery = query(
+                        collection(db, "referrals"),
+                        where("referrerId", "==", referrerId),
+                        where("referredId", "==", userData.id)
+                    );
+                    
+                    const referralsSnap = await getDocs(referralsQuery);
+                    if (!referralsSnap.empty) {
+                        const refDoc = referralsSnap.docs[0];
+                        const currentCommission = refDoc.data().commissionEarned || 0;
+                        await updateDoc(refDoc.ref, {
+                            commissionEarned: currentCommission + amount
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error("Error adding commission:", error);
+            }
+        }
+
+        // Show Coin Animation
+        function showCoinAnimation(amount) {
+            const tapArea = document.getElementById('tapArea');
+            const coin = document.createElement('div');
+            coin.className = 'coin-float';
+            coin.textContent = `+${amount.toFixed(4)}`;
+            coin.style.left = (Math.random() * 200 + 140) + 'px';
+            coin.style.top = '150px';
+            tapArea.appendChild(coin);
+
+            setTimeout(() => {
+                coin.remove();
+            }, 1000);
+        }
+
+        // Calculate Net Withdrawal Amount
+        function calculateNetAmount() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value) || appSettings.minWithdrawal;
+            const feePercentage = appSettings.withdrawalFee;
+            const feeAmount = amount * (feePercentage / 100);
+            const netAmount = amount - feeAmount;
+            
+            document.getElementById('netAmount').textContent = netAmount.toFixed(4);
+            return netAmount;
+        }
+
+        // Request Withdrawal
+        async function requestWithdraw() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const walletAddress = document.getElementById('walletAddress').value.trim();
+
+            // Validation
+            if (amount < appSettings.minWithdrawal) {
+                alert(`Minimum withdrawal is ${appSettings.minWithdrawal.toFixed(2)} USDT`);
+                return;
+            }
+
+            if (amount > userData.usdtBalance) {
+                alert("Insufficient balance");
+                return;
+            }
+
+            if (!walletAddress) {
+                alert("Please enter your wallet address");
+                return;
+            }
+
+            try {
+                // Create withdrawal request
+                await addDoc(collection(db, "withdrawals"), {
+                    userId: userData.id,
+                    username: userData.username,
+                    amount: amount,
+                    netAmount: calculateNetAmount(),
+                    fee: appSettings.withdrawalFee,
+                    walletAddress: walletAddress,
+                    method: walletAddress.startsWith('T') ? 'USDT (TRC20)' : 
+                            walletAddress.startsWith('1') ? 'Binance UID' : 'TON Wallet',
+                    status: 'pending',
+                    date: new Date().toISOString(),
+                    processedAt: null
+                });
+
+                // Deduct from user's balance
+                const newBalance = userData.usdtBalance - amount;
+                await updateDoc(doc(db, "users", userData.id), {
+                    usdtBalance: newBalance
+                });
+
+                alert(`✅ Withdrawal request submitted!\n\nAmount: ${amount.toFixed(4)} USDT\nFee: ${appSettings.withdrawalFee}%\nNet: ${calculateNetAmount().toFixed(4)} USDT\n\nYour request is pending admin approval.`);
+
+                // Reset form
+                document.getElementById('withdrawAmount').value = appSettings.minWithdrawal.toFixed(2);
+                document.getElementById('walletAddress').value = '';
+                
+                updateAllDisplays();
+
+            } catch (error) {
+                console.error("Error requesting withdrawal:", error);
+                alert("Error submitting withdrawal request. Please try again.");
+            }
+        }
+
+        // Render Tasks
+        async function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+
+            // Get tasks from Firebase or use defaults
+            let tasks = [];
+            try {
+                const tasksSnap = await getDocs(collection(db, "tasks"));
+                if (!tasksSnap.empty) {
+                    tasksSnap.forEach(doc => {
+                        tasks.push({ id: doc.id, ...doc.data() });
+                    });
+                } else {
+                    // Default tasks
+                    tasks = [
+                        { id: 'task1', title: 'Join Telegram Channel', reward: 0.1, type: 'telegram', link: 'https://t.me/coinegg_channel' },
+                        { id: 'task2', title: 'Follow on Twitter', reward: 0.05, type: 'twitter', link: 'https://twitter.com/coinegg' },
+                        { id: 'task3', title: 'Daily Login Bonus', reward: 0.01, type: 'daily' },
+                        { id: 'task4', title: 'Invite 3 Friends', reward: 0.3, type: 'referral' },
+                        { id: 'task5', title: 'Watch Video Ad', reward: 0.02, type: 'ad' }
+                    ];
+                }
+            } catch (error) {
+                console.error("Error loading tasks:", error);
+            }
+
+            tasks.forEach(task => {
+                const isCompleted = userData.completedTasks?.includes(task.id);
+                
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'task-item';
+                
+                if (task.link) {
+                    taskDiv.innerHTML = `
+                        <div class="task-header">
+                            <div style="flex: 1;">
+                                <div class="task-title">${task.title}</div>
+                                <div class="task-reward">🪙 +${task.reward.toFixed(4)} USDT</div>
+                            </div>
+                            ${isCompleted ? '<div style="background: #10b981; border-radius: 50%; padding: 10px;">✓</div>' : ''}
+                        </div>
+                        <button class="task-btn ${isCompleted ? 'completed' : ''}" 
+                                onclick="${isCompleted ? '' : `completeTask('${task.id}', ${task.reward}, '${task.link}')`}"
+                                ${isCompleted ? 'disabled' : ''}>
+                            ${isCompleted ? '✓ Completed' : 'Complete Task'}
+                        </button>
+                    `;
+                } else {
+                    taskDiv.innerHTML = `
+                        <div class="task-header">
+                            <div style="flex: 1;">
+                                <div class="task-title">${task.title}</div>
+                                <div class="task-reward">🪙 +${task.reward.toFixed(4)} USDT</div>
+                            </div>
+                            ${isCompleted ? '<div style="background: #10b981; border-radius: 50%; padding: 10px;">✓</div>' : ''}
+                        </div>
+                        <button class="task-btn ${isCompleted ? 'completed' : ''}" 
+                                onclick="${isCompleted ? '' : `completeTask('${task.id}', ${task.reward})`}"
+                                ${isCompleted ? 'disabled' : ''}>
+                            ${isCompleted ? '✓ Completed' : 'Complete Task'}
+                        </button>
+                    `;
+                }
+                
+                taskList.appendChild(taskDiv);
+            });
+        }
+
+        // Complete Task
+        async function completeTask(taskId, reward, link = null) {
+            if (userData.completedTasks?.includes(taskId)) return;
+            
+            if (link) {
+                window.open(link, '_blank');
+            }
+
+            try {
+                // Add reward to user's balance
+                const newBalance = (userData.usdtBalance || 0) + reward;
+                const completedTasks = [...(userData.completedTasks || []), taskId];
+                
+                await updateDoc(doc(db, "users", userData.id), {
+                    usdtBalance: newBalance,
+                    completedTasks: completedTasks
+                });
+
+                alert(`✅ Task completed! You earned ${reward.toFixed(4)} USDT!`);
+                
+                updateAllDisplays();
+                renderTasks();
+                
+            } catch (error) {
+                console.error("Error completing task:", error);
+                alert("Error completing task. Please try again.");
+            }
+        }
+
+        // Copy Referral Link
+        function copyReferral() {
+            const link = `https://t.me/gift_fest_io_bot?start=${userData.id}`;
+            
+            navigator.clipboard.writeText(link).then(() => {
+                alert(`✅ Referral link copied!\n\nShare it with friends to earn:\n• ${appSettings.referralBonus.toFixed(4)} USDT per referral\n• ${appSettings.referralCommission}% commission from their earnings`);
+            }).catch(() => {
+                const input = document.createElement('input');
+                input.value = link;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                alert('✅ Referral link copied!');
+            });
+        }
+
+        // Update All Displays
+        function updateAllDisplays() {
+            if (!userData) return;
+
+            // Home page
+            document.getElementById('homeBalance').textContent = (userData.usdtBalance || 0).toFixed(4) + ' USDT';
+            document.getElementById('homeReferrals').textContent = userData.totalReferrals || 0;
+            document.getElementById('homeTasksCompleted').textContent = userData.completedTasks?.length || 0;
+            document.getElementById('homeTodayClaims').textContent = userData.todayClaims || 0;
+            document.getElementById('navClaims').textContent = userData.todayClaims || 0;
+            document.getElementById('referralLinkDisplay').textContent = `https://t.me/gift_fest_io_bot?start=${userData.id}`;
+
+            // Tap page
+            document.getElementById('tapCounter').textContent = (userData.todayClaims || 0) + '/' + (appSettings.dailyClaimLimit || 1000);
+            const progressPercent = ((userData.todayClaims || 0) / (appSettings.dailyClaimLimit || 1000)) * 100;
+            document.getElementById('tapProgress').style.width = progressPercent + '%';
+            document.getElementById('tapBalance').textContent = (userData.usdtBalance || 0).toFixed(4) + ' USDT';
+            
+            const tapBtn = document.getElementById('tapButton');
+            if ((userData.todayClaims || 0) >= (appSettings.dailyClaimLimit || 1000)) {
+                tapBtn.disabled = true;
+            } else {
+                tapBtn.disabled = false;
+            }
+
+            // Referral page
+            document.getElementById('referralCount').textContent = userData.totalReferrals || 0;
+            const totalEarned = (userData.totalReferrals || 0) * (appSettings.referralBonus || 0.001);
+            document.getElementById('referralEarned').textContent = totalEarned.toFixed(4) + ' USDT';
+
+            // Withdraw page
+            document.getElementById('withdrawBalance').textContent = (userData.usdtBalance || 0).toFixed(4) + ' USDT';
+            const withdrawBtn = document.getElementById('withdrawBtn');
+            const warningBox = document.getElementById('warningBox');
+            
+            if ((userData.usdtBalance || 0) < (appSettings.minWithdrawal || 0.05)) {
+                withdrawBtn.disabled = true;
+                warningBox.style.display = 'block';
+                const needed = (appSettings.minWithdrawal || 0.05) - (userData.usdtBalance || 0);
+                document.getElementById('usdtNeeded').textContent = needed.toFixed(4);
+            } else {
+                withdrawBtn.disabled = false;
+                warningBox.style.display = 'none';
+            }
+
+            // Task progress
+            document.getElementById('taskProgress').textContent = userData.completedTasks?.length || 0;
+            
+            // Calculate net amount for withdrawal
+            calculateNetAmount();
+        }
+
+        // Show Page
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            updateAllDisplays();
+            
+            if (pageId === 'tasksPage') {
+                renderTasks();
+            }
+        }
+
+        // Event Listeners for Withdrawal Amount
+        document.getElementById('withdrawAmount')?.addEventListener('input', function() {
+            calculateNetAmount();
+        });
+
+        // Initialize App
+        window.onload = function() {
+            authenticateUser();
+        };
+
+        // Make functions globally available
+        window.showPage = showPage;
+        window.handleTap = handleTap;
+        window.copyReferral = copyReferral;
+        window.requestWithdraw = requestWithdraw;
+        window.calculateNetAmount = calculateNetAmount;
+    </script>
+</body>
+</html>
